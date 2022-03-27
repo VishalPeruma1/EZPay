@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save, pre_init, post_init
+from django.contrib.auth.models import User
 
 class Bank(models.Model):
     name = models.CharField(max_length=25)
@@ -15,6 +16,7 @@ class Bank(models.Model):
 
 class Account(models.Model):
     acc_number = models.BigIntegerField(max_length=10, null=True, default = 0)
+    # user = models.ForeignKey(User,on_delete=models.CASCADE, null=True)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
@@ -23,7 +25,7 @@ class Account(models.Model):
     email_address = models.EmailField()
     mpin = models.IntegerField(max_length=6)
     address = models.TextField()
-    balance = models.DecimalField(decimal_places=2,max_digits=7)
+    balance = models.DecimalField(decimal_places=2,max_digits=10)
 
     def __str__(self):
         return str(self.acc_number)
@@ -35,7 +37,7 @@ class Transaction(models.Model):
     sender = models.ForeignKey(Account, on_delete=models.DO_NOTHING,related_name='sender')
     receiver = models.ForeignKey(Account, on_delete=models.DO_NOTHING,related_name='receiver')
     timestamp = models.DateTimeField(auto_now_add=True)
-    amount = models.DecimalField(decimal_places=2,max_digits=5)
+    amount = models.DecimalField(decimal_places=2,max_digits=8)
     
 
     def __str__(self):
@@ -45,8 +47,7 @@ class Transaction(models.Model):
 def updateAccountNumber(sender, instance, **kwargs):
     if instance.acc_number == 0:
         num = random.randint(1000000000,9999999999)
-        unique_confirm =  list(Account.objects.all().values_list('acc_number', flat=True))
-
+        unique_confirm =  list(Account.objects.all().values_list('acc_number', flat=True)) 
         while num in unique_confirm: 
             num= random.randint(1000000000,9999999999)
         Account.objects.filter(id = instance.id).update(acc_number = num)

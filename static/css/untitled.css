@@ -1,0 +1,25 @@
+.brand-ezpay {
+  text-transform: none;
+}
+
+.card-body {
+  align-content: center;
+}
+
+#dataTable-1 {
+  overflow: hidden;
+}
+
+.phone-no {
+  border-radius: 10rem;
+  font-size: 1rem;
+}
+
+.add-margin {
+  margin-top: 5%;
+}
+
+.dob {
+  border-radius: 10rem;
+}
+
