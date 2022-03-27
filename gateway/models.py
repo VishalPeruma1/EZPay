@@ -16,7 +16,7 @@ class Bank(models.Model):
 
 class Account(models.Model):
     acc_number = models.BigIntegerField(max_length=10, null=True, default = 0)
-    # user = models.ForeignKey(User,on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE, null=True)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
