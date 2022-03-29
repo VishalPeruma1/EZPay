@@ -5,13 +5,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Table - Brand</title>
+    <title>Profile - Brand</title>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'fonts/fontawesome5-overrides.min.css' %} ">
-    <link rel="stylesheet" href="{% static 'css/untitled.css' %} ">
+    <link rel="stylesheet" href="{% static 'css/untitled.css' %}">
 </head>
 
 <body id="page-top">
@@ -41,7 +41,7 @@
                             </li>
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">{{user.first_name}} {{user.last_name}}</span><img class="border rounded-circle img-profile" src="{% static 'img/avatars/avatar1.jpeg' %} "></a>
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">{{user.first_name}} {{user.last_name}}</span><img class="border rounded-circle img-profile" src="{% static 'img/avatars/avatar1.jpeg' %}"></a>
                                     <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="#"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Edit Profile</a>
                                         <div class="dropdown-divider"></div><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
@@ -50,19 +50,33 @@
                         </ul>
                     </div>
                 </nav>
-                <div class="container-fluid text-dark">
-                    <h3 style="text-align:center; font-weight:bold; margin-top:5%;">Scan to Pay</h3>
-                    <center><img style="margin-top:5%" src="{% static 'my_qr.png' %}"></center>
-                </div>
-                <div style="margin-top:2%;">
-                    <a style="text-decoration:none; margin-left:44.5%;" href="/">← Back to Dashboard</a>
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Edit Profile Details</h3>
                 </div>
             </div>
-            <footer class="bg-white sticky-footer">
-                <div class="container my-auto">
-                    <div class="text-center my-auto copyright"></div>
-                </div>
-            </footer>
+            <div class="p-5">
+                <div class="text-center"></div>
+                <form class="user">
+                    <div class="row mb-3">
+                        <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="exampleFirstName-1" placeholder="First Name" name="first_name" style="font-size: 16px;"></div>
+                        <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="exampleFirstName-2" placeholder="Last Name" name="last_name" style="font-size: 16px;"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="phone-no" placeholder="Phone Number" name="phone_no" style="font-size: 16px;"></div>
+                        <div class="col-sm-6"><input class="form-control dob" type="text" style="height: 53.1875px;font-size: 16px;" onfocus="(this.type=&#39;date&#39;)" placeholder="Date of Birth" onblur="if(this.value==&#39;&#39;){this.type=&#39;text&#39;}"></div>
+                    </div>
+                    <div class="mb-3"><input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address" name="email" style="font-size: 16px;"></div>
+                    <div class="mb-3"><textarea class="form-control" style="border-radius: 10rem;overflow: auto;font-size: 16px;padding: 15px;" placeholder="Address"></textarea></div>
+                    <div class="row mb-3">
+                        <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="examplePasswordInput" placeholder="Password" name="password" style="font-size: 16px;"></div>
+                        <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="exampleRepeatPasswordInput" placeholder="Repeat Password" name="password_repeat" style="font-size: 16px;"></div>
+                    </div><button class="btn btn-primary d-block btn-user w-100" type="submit" style="font-size: 16px;">&nbsp;Update</button>
+                    <hr>
+                    <hr>
+                </form>
+                <div class="text-center"></div>
+                <div class="text-center"></div>
+            </div>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
