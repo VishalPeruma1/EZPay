@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Profile - Brand</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -24,7 +24,7 @@
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'profile' %}"><i class="fas fa-user"></i><span>Profile</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'transactions' %}"><i class="fas fa-table"></i>Transaction History</a></li>
                     <li class="nav-item"></li>
                 </ul>
@@ -42,7 +42,7 @@
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow">
                                 <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">{{user.first_name}} {{user.last_name}}</span><img class="border rounded-circle img-profile" src="{% static 'img/avatars/avatar1.jpeg' %}"></a>
-                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="#"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Edit Profile</a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="{% url 'editprofile' %}"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Edit Profile</a>
                                         <div class="dropdown-divider"></div><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
                                 </div>
@@ -62,18 +62,18 @@
                                     <form>
                                         <div class="row">
                                             <div class="col"><label class="form-label" for="first_name"><strong>First Name</strong></label>
-                                                <p>John</p>
+                                                <p>{{user.first_name}}</p>
                                             </div>
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="last_name"><strong>Last Name</strong></label>
-                                                    <p>Doe</p>
+                                                    <p>{{user.last_name}}</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="email"><strong>Date of Birth</strong><br></label>
-                                                    <p>01-01-00</p>
+                                                    <p>{{user.dob}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -90,19 +90,19 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="city"><strong>Phone Number</strong></label>
-                                                    <p>7510372440</p>
+                                                    <p>{{user.phone_number}}</p>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="country"><strong>Email Address</strong></label>
-                                                    <p>abc@gmail.com<br></p>
+                                                    <p>{{user.email_address}}<br></p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="city"><strong>Address</strong><br></label>
-                                                    <p>Address</p>
+                                                    <p>{{user.address}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -119,12 +119,12 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="city"><strong>Bank Name&nbsp;</strong><br></label>
-                                                    <p>SBI</p>
+                                                    <p>{{user.bank}}</p>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="mb-3"><label class="form-label" for="country"><strong>Account Number</strong></label>
-                                                    <p>1**********560<br></p>
+                                                    <p>{{user.acc_number}}<br></p>
                                                 </div>
                                             </div>
                                         </div>

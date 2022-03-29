@@ -17,15 +17,15 @@ class Bank(models.Model):
 class Account(models.Model):
     acc_number = models.BigIntegerField(max_length=10, null=True, default = 0)
     user = models.ForeignKey(User,on_delete=models.CASCADE, null=True)
-    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE, null=True)
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
     dob = models.DateField()
     phone_number = models.IntegerField(max_length=10)
     email_address = models.EmailField()
-    mpin = models.IntegerField(max_length=6)
+    mpin = models.IntegerField(max_length=6, null=True)
     address = models.TextField()
-    balance = models.DecimalField(decimal_places=2,max_digits=10)
+    balance = models.DecimalField(decimal_places=2,max_digits=10, default=0.0)
 
     def __str__(self):
         return str(self.acc_number)
