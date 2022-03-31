@@ -187,9 +187,9 @@ def send(request):
         phones = list(Account.objects.all().values_list('phone_number', flat=True))
         if not int(rec_phone_number) in phones:
             return redirect('transactionfailed')
-        else:
+        else: 
             if len(rec_phone_number) == 10:
-                if (acc_holder.balance > 0.0):
+                if (acc_holder.balance > 0.0 or acc_holder.balance >= amount):
                     if (int(mpin)==acc_holder.mpin):
                         iSender = acc_holder
                         iReceiver = Account.objects.get(phone_number = int(rec_phone_number))
