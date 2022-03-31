@@ -12,14 +12,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'fonts/fontawesome5-overrides.min.css' %} ">
     <link rel="stylesheet" href="{% static 'css/untitled.css' %}">
+    <link rel="icon" type="image/icon" href="{% static 'img\EZfav\favicon.ico' %}">
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
-            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
-                    <div><span class="brand-ezpay">EZPay</span></div>
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href={% url 'dashboard' %}>
+                    <div class="sidebar-brand-icon"><img src="{% static 'img\android-chrome-192x192.png' %} " alt="" style="height: 7rem;"></i>
+                    </div>
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
@@ -56,24 +58,28 @@
             </div>
             <div class="p-5">
                 <div class="text-center"></div>
-                <form class="user">
+                <form class="user" method="post">
+                    {% csrf_token %}
                     <div class="row mb-3">
-                        <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="exampleFirstName-1" placeholder="First Name" name="first_name" style="font-size: 16px;"></div>
-                        <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="exampleFirstName-2" placeholder="Last Name" name="last_name" style="font-size: 16px;"></div>
+                        <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="exampleFirstName-1" placeholder="First Name" name="first_name" style="font-size: 16px;" value={{user.first_name}}></div>
+                        <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="exampleFirstName-2" placeholder="Last Name" name="last_name" style="font-size: 16px;" value="{{user.last_name}}"></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="phone-no" placeholder="Phone Number" name="phone_no" style="font-size: 16px;"></div>
-                        <div class="col-sm-6"><input class="form-control dob" type="text" style="height: 53.1875px;font-size: 16px;" onfocus="(this.type=&#39;date&#39;)" placeholder="Date of Birth" onblur="if(this.value==&#39;&#39;){this.type=&#39;text&#39;}"></div>
+                        <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="phone-no" placeholder="Phone Number" name="phone_no" style="font-size: 16px;" value={{user.phone_number}}></div>
+                        <div class="col-sm-6"><input class="form-control dob" type="text" style="height: 53.1875px;font-size: 16px;" onfocus="(this.type=&#39;date&#39;)" placeholder="Date of Birth" name= "dob" onblur="if(this.value==&#39;&#39;){this.type=&#39;text&#39;}" value="{{user.dob}}"></div>
                     </div>
-                    <div class="mb-3"><input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address" name="email" style="font-size: 16px;"></div>
-                    <div class="mb-3"><textarea class="form-control" style="border-radius: 10rem;overflow: auto;font-size: 16px;padding: 15px;" placeholder="Address"></textarea></div>
+                    <div class="mb-3"><input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address" name="email" style="font-size: 16px;" value={{user.email_address}}></div>
+                    <div class="mb-3"><input class="form-control from-control-user" style="border-radius: 10rem;overflow: auto;font-size: 16px;padding: 15px;" placeholder="Address" name="address" value="{{user.address}}"></textarea></div>
                     <div class="row mb-3">
                         <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="examplePasswordInput" placeholder="Password" name="password" style="font-size: 16px;"></div>
-                        <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="exampleRepeatPasswordInput" placeholder="Repeat Password" name="password_repeat" style="font-size: 16px;"></div>
+                        <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="exampleRepeatPasswordInput" placeholder="Repeat Password" name="password_repeat" style="font-size: 16px;" ></div>
                     </div><button class="btn btn-primary d-block btn-user w-100" type="submit" style="font-size: 16px;">&nbsp;Update</button>
                     <hr>
                     <hr>
                 </form>
+                {% if error %}
+                    <p class="errorbox">{{error}}</p>
+                {% endif %}
                 <div class="text-center"></div>
                 <div class="text-center"></div>
             </div>

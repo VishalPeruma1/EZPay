@@ -4,13 +4,14 @@ urlpatterns = [
     path('', home, name='dashboard'),
     path('login/',loginApp, name="login"),
     path('logout/',logoutApp,name='logout'),
-    path('transactions/',transaction_history,name='transactions'),
+    path('transaction-history/',transaction_history,name='transactions'),
     path('receive/',receive,name='receive'),
     path('profile/',profile,name='profile'),
-    path('under_construction/',forgotpassword,name='forgotpassword'),
+    path('under-construction/',forgotpassword,name='forgotpassword'),
     path('signup/',signup,name='signup'),
-    path('bankdetails/',bankdetails,name='bankdetails'),
-    path('editprofile/',editprofile,name='editprofile'), 
-    path('send/',send,name='send')
-
+    path('bank-details/',bankdetails,name='bankdetails'),
+    path('edit-profile/',editprofile,name='editprofile'), 
+    path('send/',send,name='send'),
+    path('transaction-failed/',transaction_failed,name='transactionfailed'),
+    path('transaction-success/',transaction_successful,name='transactionsuccessful')
 ]

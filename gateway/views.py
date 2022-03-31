@@ -1,6 +1,7 @@
 from cmath import log
 import re
-from unicodedata import name
+from unicodedata import decimal, name
+from webbrowser import get
 from django.dispatch import receiver
 from django.shortcuts import render, redirect
 from django.http.response import HttpResponse
@@ -12,6 +13,7 @@ from gateway.models import Account, Bank, Transaction
 from django.db.models import Q
 import qrcode
 import hashlib
+import math
 
 @unAuthenticated_user
 def loginApp(request):
@@ -62,7 +64,7 @@ def signup(request):
                     phone_number = phonenumber, 
                     email_address = emailaddress,
                     address = address, 
-                    user = user
+                    user = userobj
                 )
                 account.save()
                 user = authenticate(request, username=phonenumber, password=password)
@@ -85,15 +87,17 @@ def bankdetails(request):
         else:
             if mpin != mpin_repeat:
                 return render(request, 'gateway/bank-register.html', {'error':'ERROR: MPINs do not match! '})
+            if len(acc_number)!=10:
+                return render(request, 'gateway/bank-register.html', {'error':'ERROR: Invalid Account Number! '})
             else:
+                banknamee, branch_name = bankname.split(', ')
+                bankobj = Bank.objects.get(name = banknamee, branch_name = branch_name)
                 acc_holder.update(
                     acc_number = acc_number,
-                    mpin = mpin
+                    mpin = mpin, 
+                    bank = bankobj
                 )
-                bank = Bank(
-                    name = bankname,
-                )
-                bank.save()
+
                 return redirect('dashboard')    
     return render(request,'gateway/bank-register.html', {'banks': banks})
 
@@ -105,14 +109,14 @@ def logoutApp(request):
 @login_required(login_url='login')
 def home(request):
     acc_holder = Account.objects.get(user=User.objects.get(id=request.user.id))
-    transactions =list(Transaction.objects.filter(Q(sender = acc_holder) | Q(receiver = acc_holder)))[:5]
+    transactions =list(Transaction.objects.filter(Q(sender = acc_holder) | Q(receiver = acc_holder)))[-5:]
     return render(request, 'gateway/dashboard.html', {'user': acc_holder, 'transactions': transactions})
 
 @login_required(login_url='login')
 def transaction_history(request):
     acc_holder = Account.objects.get(user=User.objects.get(id=request.user.id))
     transactions = Transaction.objects.filter(Q(sender = acc_holder) | Q(receiver = acc_holder))
-    return render(request, 'gateway/transaction.html', {'user': acc_holder, 'transactions': transactions})
+    return render(request, 'gateway/transaction-history.html', {'user': acc_holder, 'transactions': transactions})
 
 @login_required(login_url='login')
 def receive(request):
@@ -129,11 +133,81 @@ def profile(request):
 
 @login_required(login_url='login')
 def editprofile(request):
+    acc_holder = Account.objects.filter(user=User.objects.get(id=request.user.id))
+    acc_holder_ = Account.objects.get(user=User.objects.get(id=request.user.id))
+
+    if request.method=='POST':
+        firstname = request.POST.get('first_name')
+        lastname = request.POST.get('last_name')
+        phonenumber = request.POST.get('phone_no')
+        dob = request.POST.get('dob')
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        password = request.POST.get('password')
+        password_repeat = request.POST.get('password_repeat')
+        if firstname == '' or lastname == '' or phonenumber == '' or dob == '' or email == '' or address == '' or password == '' or password_repeat == '':
+            return render(request, 'gateway/edit-profile.html', {'error':'ERROR: All fields are mandatory! '})
+        else:
+            if password != password_repeat: 
+                return render(request, 'gateway/edit-profile.html', {'error':'ERROR: Passwords do not match! '})
+            else:
+                acc_holder.update(
+                    first_name = firstname,
+                    last_name = lastname, 
+                    phone_number = phonenumber,
+                    email_address = email, 
+                    dob = dob,
+                    address = address, 
+                )
+            userobj = User.objects.get(id = request.user.id)
+            userobj.set_password(password_repeat)
+            userobj.save()
+
+    return render(request, 'gateway/edit-profile.html', {'user': acc_holder_})
+
+@login_required(login_url='login')
+def transaction_failed(request):
     acc_holder = Account.objects.get(user=User.objects.get(id=request.user.id))
-    return render(request, 'gateway/edit-profile.html', {'user': acc_holder})
+    return render(request, 'gateway/transaction-failed.html', {'user': acc_holder})
+
+@login_required(login_url='login')
+def transaction_successful(request):
+    acc_holder = Account.objects.get(user=User.objects.get(id=request.user.id))
+    return render(request, 'gateway/transaction-successful.html', {'user': acc_holder})
 
 @login_required(login_url='login')
 def send(request):
     acc_holder = Account.objects.get(user=User.objects.get(id=request.user.id))
+    acc_receiver  = Account.objects.all()
+
+    if request.method=='POST':
+        rec_phone_number = request.POST.get('phone_no')
+        mpin = request.POST.get('mpin')
+        amount = request.POST.get('amount')
+        phones = list(Account.objects.all().values_list('phone_number', flat=True))
+        if not int(rec_phone_number) in phones:
+            return redirect('transactionfailed')
+        else:
+            if len(rec_phone_number) == 10:
+                if (acc_holder.balance > 0.0):
+                    if (int(mpin)==acc_holder.mpin):
+                        iSender = acc_holder
+                        iReceiver = Account.objects.get(phone_number = int(rec_phone_number))
+                        iReceiver.balance = iReceiver.balance + float(amount)
+                        iSender.balance = iSender.balance - float(amount)
+                        acc_holder.save()
+                        iReceiver.save()
+                        transaction = Transaction.objects.create(
+                            sender = acc_holder,
+                            receiver = acc_receiver.get(phone_number = int(rec_phone_number)),
+                            amount = float(amount)
+                        )
+                        transactions = Transaction.objects.get(id=transaction.id)
+                        return render(request, 'gateway/transaction-successful.html', {'transactions': transactions , 'receiver': iReceiver})
+                    else: 
+                        return redirect('transactionfailed')
+                else: 
+                    return redirect('transactionfailed')
     return render(request, 'gateway/send.html', {'user': acc_holder})
+
 

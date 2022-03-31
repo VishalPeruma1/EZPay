@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Send</title>
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %} ">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,9 +17,10 @@
 <body id="page-top">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
-            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
-                    <div><span class="brand-ezpay">EZPay</span></div>
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href={% url 'dashboard' %}>
+                    <div class="sidebar-brand-icon"><img src="{% static 'img\android-chrome-192x192.png' %} " alt="" style="height: 7rem;"></i>
+                    </div>
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
@@ -41,7 +42,7 @@
                             </li>
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">{{user.first_name}} {{user.last_name}}</span><img class="border rounded-circle img-profile" src="{% static 'img/avatars/avatar1.jpeg' %}"></a>
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">{{user.first_name}} {{user.last_name}}</span><img class="border rounded-circle img-profile" src="{% static 'img/avatars/avatar1.jpeg' %} "></a>
                                     <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="{% url 'editprofile' %}"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Edit Profile</a>
                                         <div class="dropdown-divider"></div><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
@@ -52,8 +53,10 @@
                 </nav>
                 <div class="container">
                     <div>
-                        <div class="table-responsive" style="border:none;margin-top:10%;margin-right:5%;">
-                            <table class="table">
+                        <div class="table-responsive send-table" style="border:none;margin-top:8%;margin-right:6%;">
+                            <form class="user" method="post">
+                                {% csrf_token %} 
+                            <table class="table trans-table">
                                 <thead>
                                     <tr>
                                         <th class="text-dark" style="font-size:1.75rem;">Upload QR Code</th>
@@ -65,19 +68,26 @@
                                     <tr>
                                         <td style="padding-left:10%;"><input type="file"></td>
                                         <td></td>
-                                        <td style="padding-left:10%;"><input type="text" class="form-control form-control-user mpin" style="font-size:16px;height:3rem;width:20rem;" placeholder="Phone Number"></td>
+                                        <td style="padding-left:9%;"><input type="text" class="form-control form-control-user mpin" style="font-size:16px;height:3rem;width:20rem;" placeholder="Phone Number" name="phone_no"></td>
                                     </tr>
                                     <tr></tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div style="margin-top:6%;margin-left:13%;"><label class="form-label text-dark" style="margin-left:35.5%;font-size:1.75rem;font-weight:bold;">Enter MPIN<br></label></div>
-                    <div style="margin-top:1%;margin-left:13%;"><input type="text" class="form-control form-control-user mpin" style="font-size:16px;height:3rem;width:20rem;margin-left:28%;" placeholder="MPIN"></div>
+                    <div style="margin-top:4%;margin-left:11%;"><label class="form-label text-dark" style="margin-left:34.5%;font-size:1.75rem;font-weight:bold;">Enter Amount<br></label></div>
+                    <div style="margin-top:1%;margin-left:13%;"><input type="text" class="form-control form-control-user mpin" style="font-size:16px;height:3rem;width:20rem;margin-left:25.5%;" placeholder="Amount" name="amount"></div> 
+                    <div style="margin-top:4%;margin-left:11%;"><label class="form-label text-dark" style="margin-left:34.5%;font-size:1.75rem;font-weight:bold;">Enter MPIN<br></label></div>
+                    <div style="margin-top:1%;margin-left:13%;"><input type="text" class="form-control form-control-user mpin" style="font-size:16px;height:3rem;width:20rem;margin-left:25.5%;" placeholder="MPIN" name="mpin"></div>
                 </div>
+                <div style="margin-top:5%;margin-left:13%;"><button class="btn btn-primary" type="submit" style="font-size:1rem;height:3.15rem;width:25rem;margin-left:22%;border-radius:10rem;">Submit</button></div>
+            </form>
                 <div class="container-fluid">
-                    <div class="text-center mt-5" style="padding-right:0.75%;"><a href="{% url 'dashboard' %}">← Back to Dashboard</a></div>
+                    <div class="text-center mt-5" style="padding-right:5%;"><a href="dashboard.html">← Back to Dashboard</a></div>
                 </div>
+            {% if error %}
+                <p class="errorbox" style="text-align: center;">{{error}}</p>
+            {% endif %}
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">

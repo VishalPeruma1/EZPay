@@ -12,14 +12,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'fonts/fontawesome5-overrides.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/untitled.css' %}">
+    <link rel="icon" type="image/icon" href="{% static 'img\EZfav\favicon.ico' %}">
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
-            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
-                    <div><span class="brand-ezpay">EZPay</span></div>
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href={% url 'dashboard' %}>
+                    <div class="sidebar-brand-icon"><img src="{% static 'img\android-chrome-192x192.png' %} " alt="" style="height: 7rem;"></i>
+                    </div>
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
