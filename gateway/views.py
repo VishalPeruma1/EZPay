@@ -189,7 +189,7 @@ def send(request):
             return redirect('transactionfailed')
         else: 
             if len(rec_phone_number) == 10:
-                if (acc_holder.balance > 0.0 or acc_holder.balance >= amount):
+                if (acc_holder.balance > 0.0 and acc_holder.balance >= float(amount) and float(amount) > 0):
                     if (int(mpin)==acc_holder.mpin):
                         iSender = acc_holder
                         iReceiver = Account.objects.get(phone_number = int(rec_phone_number))

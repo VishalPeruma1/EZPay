@@ -2,3 +2,5 @@ vir
 __pycache__
 migrations
 static/my_qr.png
+.env
+db.sqlite3
