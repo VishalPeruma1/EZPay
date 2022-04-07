@@ -197,21 +197,22 @@ def send(request):
         mpin = request.POST.get('mpin')
         amount = request.POST.get('amount')
         phones = list(Account.objects.all().values_list('phone_number', flat=True))
-        if not rec_phone_number in phones:
+        if not int(rec_phone_number) in phones:
             return redirect('transactionfailed')
         else: 
             if len(rec_phone_number) == 10:
                 if (acc_holder.balance > 0.0 and acc_holder.balance >= float(amount) and float(amount) > 0):
                     if (int(mpin)==acc_holder.mpin):
                         iSender = acc_holder
-                        iReceiver = Account.objects.get(phone_number = rec_phone_number)
+                        iReceiver = Account.objects.get(phone_number = int(rec_phone_number))
                         iReceiver.balance = iReceiver.balance + float(amount)
                         iSender.balance = iSender.balance - float(amount)
                         acc_holder.save()
                         iReceiver.save()
+                        print(type(rec_phone_number))
                         transaction = Transaction.objects.create(
                             sender = acc_holder,
-                            receiver = acc_receiver.get(phone_number = rec_phone_number),
+                            receiver = acc_receiver.get(phone_number = int(rec_phone_number)),
                             amount = float(amount)
                         )
                         transactions = Transaction.objects.get(id=transaction.id)
