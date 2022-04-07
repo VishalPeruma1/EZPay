@@ -21,7 +21,7 @@ class Account(models.Model):
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
     dob = models.CharField(null=True, max_length=25) 
-    phone_number = models.IntegerField(max_length=10)
+    phone_number = models.BigIntegerField(max_length=10)
     email_address = models.EmailField()
     mpin = models.IntegerField(max_length=6, null=True)
     address = models.TextField()
