@@ -55,7 +55,8 @@ def signup(request):
             if password != password_repeat:
                 return render(request, 'gateway/general-register.html', {'error':'ERROR: Passwords do not match! '})
             else:
-                try: 
+                try:
+                    v = validate_password(password) 
                     userobj = User.objects.create_user (
                         username = str(phonenumber),
                         password = password
@@ -158,6 +159,7 @@ def editprofile(request):
                 return render(request, 'gateway/edit-profile.html', {'error':'ERROR: Passwords do not match! '})
             else:
                 try:
+                    v = validate_password(password) 
                     acc_holder.update(
                         first_name = firstname,
                         last_name = lastname, 
