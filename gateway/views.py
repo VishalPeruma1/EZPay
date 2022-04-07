@@ -204,14 +204,14 @@ def send(request):
                 if (acc_holder.balance > 0.0 and acc_holder.balance >= float(amount) and float(amount) > 0):
                     if (int(mpin)==acc_holder.mpin):
                         iSender = acc_holder
-                        iReceiver = Account.objects.get(phone_number = int(rec_phone_number))
+                        iReceiver = Account.objects.get(phone_number = rec_phone_number)
                         iReceiver.balance = iReceiver.balance + float(amount)
                         iSender.balance = iSender.balance - float(amount)
                         acc_holder.save()
                         iReceiver.save()
                         transaction = Transaction.objects.create(
                             sender = acc_holder,
-                            receiver = acc_receiver.get(phone_number = int(rec_phone_number)),
+                            receiver = acc_receiver.get(phone_number = rec_phone_number),
                             amount = float(amount)
                         )
                         transactions = Transaction.objects.get(id=transaction.id)

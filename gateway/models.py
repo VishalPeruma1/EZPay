@@ -21,7 +21,7 @@ class Account(models.Model):
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
     dob = models.CharField(null=True, max_length=25) 
-    phone_number = models.BigIntegerField(max_length=15)
+    phone_number = models.CharField(max_length=15)
     email_address = models.EmailField()
     mpin = models.IntegerField(max_length=6, null=True)
     address = models.TextField()
@@ -33,12 +33,11 @@ class Account(models.Model):
     
 
 class Transaction(models.Model):
-    id = models.CharField(unique=True, primary_key=True, editable=False, default=uuid.uuid4, max_length=512)
+    id = models.CharField(unique=True, primary_key=True, editable=False, default=uuid.uuid4, max_length=10)
     sender = models.ForeignKey(Account, on_delete=models.DO_NOTHING,related_name='sender')
     receiver = models.ForeignKey(Account, on_delete=models.DO_NOTHING,related_name='receiver')
     timestamp = models.DateTimeField(auto_now_add=True)
     amount = models.FloatField(max_length=7)
-    ran = models.IntegerField(null=True)
 
     def __str__(self):
         return str(self.id)
