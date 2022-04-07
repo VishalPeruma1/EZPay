@@ -33,7 +33,7 @@ class Account(models.Model):
     
 
 class Transaction(models.Model):
-    id = models.CharField(unique=True, primary_key=True, max_length=10, editable=False, default=uuid.uuid4)
+    id = models.CharField(unique=True, primary_key=True, editable=False, default=uuid.uuid4)
     sender = models.ForeignKey(Account, on_delete=models.DO_NOTHING,related_name='sender')
     receiver = models.ForeignKey(Account, on_delete=models.DO_NOTHING,related_name='receiver')
     timestamp = models.DateTimeField(auto_now_add=True)
