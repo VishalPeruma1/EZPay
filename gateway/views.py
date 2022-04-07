@@ -3,6 +3,7 @@ import re
 from unicodedata import decimal, name
 from webbrowser import get
 from django.dispatch import receiver
+from django.forms import ValidationError
 from django.shortcuts import render, redirect
 from django.http.response import HttpResponse
 from django.contrib.auth.models import User
@@ -13,7 +14,7 @@ from gateway.models import Account, Bank, Transaction
 from django.db.models import Q
 import qrcode
 import hashlib
-import math
+from django.contrib.auth.password_validation import validate_password
 
 @unAuthenticated_user
 def loginApp(request):
@@ -38,6 +39,7 @@ def forgotpassword(request):
 
 @unAuthenticated_user
 def signup(request):
+    data = {}
     if request.method == 'POST':
         firstname = request.POST.get('first_name')
         lastname = request.POST.get('last_name')
@@ -53,24 +55,28 @@ def signup(request):
             if password != password_repeat:
                 return render(request, 'gateway/general-register.html', {'error':'ERROR: Passwords do not match! '})
             else:
-                userobj = User.objects.create_user (
-                    username = str(phonenumber),
-                    password = password
-                )
-                account = Account (
-                    first_name = firstname,
-                    last_name = lastname,
-                    dob = dob, 
-                    phone_number = phonenumber, 
-                    email_address = emailaddress,
-                    address = address, 
-                    user = userobj
-                )
-                account.save()
-                user = authenticate(request, username=phonenumber, password=password)
-                if user is not None:
-                    login(request, user)
-                    return redirect('bankdetails')    
+                try: 
+                    userobj = User.objects.create_user (
+                        username = str(phonenumber),
+                        password = password
+                    )
+                    account = Account (
+                        first_name = firstname,
+                        last_name = lastname,
+                        dob = dob, 
+                        phone_number = phonenumber, 
+                        email_address = emailaddress,
+                        address = address, 
+                        user = userobj
+                    )
+                    account.save()
+                    user = authenticate(request, username=phonenumber, password=password)
+                    if user is not None:
+                        login(request, user)
+                        return redirect('bankdetails') 
+                except ValidationError as v:
+                    errorstr = '\n'.join(v)
+                    return render(request, 'gateway/general-register.html', {'error': errorstr}) 
     return render(request,'gateway/general-register.html')
 
 @login_required(login_url='login')
@@ -151,18 +157,22 @@ def editprofile(request):
             if password != password_repeat: 
                 return render(request, 'gateway/edit-profile.html', {'error':'ERROR: Passwords do not match! '})
             else:
-                acc_holder.update(
-                    first_name = firstname,
-                    last_name = lastname, 
-                    phone_number = phonenumber,
-                    email_address = email, 
-                    dob = dob,
-                    address = address, 
-                )
-            userobj = User.objects.get(id = request.user.id)
-            userobj.set_password(password_repeat)
-            userobj.save()
-
+                try:
+                    acc_holder.update(
+                        first_name = firstname,
+                        last_name = lastname, 
+                        phone_number = phonenumber,
+                        email_address = email, 
+                        dob = dob,
+                        address = address, 
+                    )
+                    userobj = User.objects.get(id = request.user.id)
+                    userobj.set_password(password_repeat)
+                    userobj.save()
+                except ValidationError as v:
+                    errorstr = '\n'.join(v)
+                    return render(request, 'gateway/edit-profile.html', {'error': errorstr}) 
+                
     return render(request, 'gateway/edit-profile.html', {'user': acc_holder_})
 
 @login_required(login_url='login')
