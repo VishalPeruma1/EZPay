@@ -197,7 +197,7 @@ def send(request):
         mpin = request.POST.get('mpin')
         amount = request.POST.get('amount')
         phones = list(Account.objects.all().values_list('phone_number', flat=True))
-        if not int(rec_phone_number) in phones:
+        if not rec_phone_number in phones:
             return redirect('transactionfailed')
         else: 
             if len(rec_phone_number) == 10:
