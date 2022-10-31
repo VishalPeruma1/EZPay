@@ -27,15 +27,16 @@
 
 <body class="bg-gradient-primary">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-9 col-lg-12 col-xl-10 add-margin">
+        <div class="row">
+            <div class="col-md-9 col-lg-12 col-xl-10 add-margin"  style="margin-left:100px;">
                 <div class="card shadow-lg o-hidden border-0 my-5">
                     <div class="card-body p-0" style="height: 484.891px;">
-                        <div class="row">
+                        <div class="row login"  style="justify-content:center;">
                             <div class="col-lg-6 d-none d-lg-flex">
-                                <div class="flex-grow-1 bg-login-image" style="background-image: url({% static 'img/dogs/image3.jpeg' %});"></div>
+                                <div class="flex-grow-1 bg-login-image" style="background-image: url({% static 'img/android-chrome-512x512.png' %});"></div>
                             </div>
-                            <div class="col-lg-6">
+                                
+                            <div class="col-lg-6" >
                                 <div class="p-5" style="height: 485.891px;">
                                     <div class="text-center">
                                         <h4 class="text-dark mb-4" style="font-size: 27.616px;">Sign in to EZPay</h4>
@@ -56,7 +57,7 @@
                                 
                                     <div class="text-center"></div>
                                     <div class="text-center" style="margin-top: 31px;"><a class="small" href="{% url 'signup' %}">Create an Account!</a></div>
-                                    <div class="text-center" style="margin-top: 10px;"><a class="small" href="{% url 'forgotpassword' %}">Forgot Password</a></div>
+                                    {% comment %} <div class="text-center" style="margin-top: 10px;"><a class="small" href="{% url 'forgotpassword' %}">Forgot Password</a></div> {% endcomment %}
                                 </div>
                             </div>
                         </div>
